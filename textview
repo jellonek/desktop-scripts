@@ -10,7 +10,7 @@ fi
 extension="${filename##*.}"
 
 case "$extension" in
-    markdown|textile|html|rst|docbook|mediawiki|wiki|latex)
+    md|markdown|textile|html|rst|docbook|mediawiki|wiki|latex)
         ;;
     *)
         echo Unknow format.
