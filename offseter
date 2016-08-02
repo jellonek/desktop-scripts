@@ -1,0 +1,47 @@
+#!/usr/bin/env python2
+
+def print_offsets(lines):
+    offset = 0
+    for line in lines:
+        print "%06d:%06d %s" % (offset, offset + len(line), line.rstrip())
+        offset += len(line)
+
+
+def find_line_by_offset(lines, requested_offset):
+    offset = 0
+    line_no = 0
+    for line in lines:
+        offset += len(line)
+        line_no += 1
+        if requested_offset < offset:
+            print "%d: %s" % (line_no, line.rstrip())
+            break
+    else:
+        print "line not found, file size: %d" % offset
+
+
+def usage():
+    print "offseter filename [offset]"
+
+
+def main(args):
+    if not args or len(args) > 2:
+        usage()
+        exit(1)
+
+    filename = args.pop(0)
+    with open(filename) as lines:
+        if args:
+            try:
+                offset = int(args[0])
+            except ValueError:
+                print "expected integer decimal offset as second parameter"
+                exit(1)
+            find_line_by_offset(lines, offset)
+        else:
+            print_offsets(lines)
+
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv[1:])
